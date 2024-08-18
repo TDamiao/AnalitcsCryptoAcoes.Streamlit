@@ -3,6 +3,7 @@ import yfinance as yf
 import pandas as pd
 import pandas_ta as ta
 from binance.client import Client
+import plotly.graph_objects as go
 import datetime
 
 # Binance API keys (substitua pelas suas chaves se necessário)
@@ -37,32 +38,39 @@ def calculate_indicators(data, indicator):
         return rsi
     elif indicator == 'Bollinger Bands':
         bbands = data.ta.bbands(length=20)
-        return bbands['BBL_20'], bbands['BBM_20'], bbands['BBU_20']
+        # Usar os nomes corretos das colunas
+        return bbands['BBL_20_2.0'], bbands['BBM_20_2.0'], bbands['BBU_20_2.0']
 
-# Função para gerar recomendações
+# Função para gerar recomendações e marcadores de compra/venda
 def generate_recommendation(data, indicator):
+    buy_signals = []
+    sell_signals = []
+
     if indicator == 'MACD':
         macd, signal = calculate_indicators(data, 'MACD')
-        if macd.iloc[-1] > signal.iloc[-1]:
-            return "Comprar"
-        else:
-            return "Vender"
+        for i in range(1, len(macd)):
+            if macd.iloc[i] > signal.iloc[i] and macd.iloc[i-1] < signal.iloc[i-1]:
+                buy_signals.append((data.index[i], data['Close'].iloc[i]))
+            elif macd.iloc[i] < signal.iloc[i] and macd.iloc[i-1] > signal.iloc[i-1]:
+                sell_signals.append((data.index[i], data['Close'].iloc[i]))
+
     elif indicator == 'RSI':
         rsi = calculate_indicators(data, 'RSI')
-        if rsi.iloc[-1] < 30:
-            return "Comprar"
-        elif rsi.iloc[-1] > 70:
-            return "Vender"
-        else:
-            return "Manter"
+        for i in range(len(rsi)):
+            if rsi.iloc[i] < 30:
+                buy_signals.append((data.index[i], data['Close'].iloc[i]))
+            elif rsi.iloc[i] > 70:
+                sell_signals.append((data.index[i], data['Close'].iloc[i]))
+
     elif indicator == 'Bollinger Bands':
         lowerband, middleband, upperband = calculate_indicators(data, 'Bollinger Bands')
-        if data['Close'].iloc[-1] < lowerband.iloc[-1]:
-            return "Comprar"
-        elif data['Close'].iloc[-1] > upperband.iloc[-1]:
-            return "Vender"
-        else:
-            return "Manter"
+        for i in range(len(data)):
+            if data['Close'].iloc[i] < lowerband.iloc[i]:
+                buy_signals.append((data.index[i], data['Close'].iloc[i]))
+            elif data['Close'].iloc[i] > upperband.iloc[i]:
+                sell_signals.append((data.index[i], data['Close'].iloc[i]))
+
+    return buy_signals, sell_signals
 
 # Interface com Streamlit
 st.title("Análise de Ações e Criptomoedas com Indicadores Técnicos")
@@ -81,20 +89,25 @@ else:
 indicator = st.selectbox("Escolha o indicador", ['MACD', 'RSI', 'Bollinger Bands'])
 
 if st.button("Analisar"):
-    recommendation = generate_recommendation(data, indicator)
-    st.write(f"Recomendação: {recommendation}")
+    buy_signals, sell_signals = generate_recommendation(data, indicator)
+    
+    # Plotando os dados com marcadores de compra e venda
+    fig = go.Figure()
 
-    if indicator == 'MACD':
-        macd, signal = calculate_indicators(data, 'MACD')
-        st.line_chart(macd)
-        st.line_chart(signal)
+    # Adiciona o gráfico de fechamento
+    fig.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Preço de Fechamento'))
 
-    elif indicator == 'RSI':
-        rsi = calculate_indicators(data, 'RSI')
-        st.line_chart(rsi)
+    # Adiciona os marcadores de compra
+    if buy_signals:
+        buy_dates, buy_prices = zip(*buy_signals)
+        fig.add_trace(go.Scatter(x=buy_dates, y=buy_prices, mode='markers', name='Comprar', 
+                                 marker=dict(color='green', size=10, symbol='circle')))
 
-    elif indicator == 'Bollinger Bands':
-        lowerband, middleband, upperband = calculate_indicators(data, 'Bollinger Bands')
-        st.line_chart(data['Close'])
-        st.line_chart(upperband)
-        st.line_chart(lowerband)
+    # Adiciona os marcadores de venda
+    if sell_signals:
+        sell_dates, sell_prices = zip(*sell_signals)
+        fig.add_trace(go.Scatter(x=sell_dates, y=sell_prices, mode='markers', name='Vender', 
+                                 marker=dict(color='red', size=10, symbol='circle')))
+
+    # Exibir o gráfico
+    st.plotly_chart(fig)

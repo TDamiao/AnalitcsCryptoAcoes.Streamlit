@@ -38,7 +38,6 @@ def calculate_indicators(data, indicator):
         return rsi
     elif indicator == 'Bollinger Bands':
         bbands = data.ta.bbands(length=20)
-        # Usar os nomes corretos das colunas
         return bbands['BBL_20_2.0'], bbands['BBM_20_2.0'], bbands['BBU_20_2.0']
 
 # Função para gerar recomendações e marcadores de compra/venda
@@ -111,3 +110,12 @@ if st.button("Analisar"):
 
     # Exibir o gráfico
     st.plotly_chart(fig)
+
+    # Exibindo o preço da última análise de compra e venda
+    if buy_signals:
+        last_buy_date, last_buy_price = buy_signals[-1]
+        st.write(f"Último preço de compra: {last_buy_price} na data {last_buy_date}")
+
+    if sell_signals:
+        last_sell_date, last_sell_price = sell_signals[-1]
+        st.write(f"Último preço de venda: {last_sell_price} na data {last_sell_date}")

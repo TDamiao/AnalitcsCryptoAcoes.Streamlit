@@ -23,7 +23,7 @@ Clone este repositório para sua máquina local:
 
 ```
 git clone git@github.com:TDamiao/ilhoa.analitc.git
-cd seu-repositorio
+cd ilhoa.analitc
 ```
 
 ### 2. Arquivo .env

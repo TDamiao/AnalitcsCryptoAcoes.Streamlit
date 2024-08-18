@@ -7,8 +7,8 @@ import plotly.graph_objects as go
 import datetime
 
 # Binance API keys (substitua pelas suas chaves se necessário)
-BINANCE_API_KEY = 'sua_api_key_aqui'
-BINANCE_API_SECRET = 'seu_api_secret_aqui'
+BINANCE_API_KEY = 'elKswgkiM7gXTeo0ge8BkMqJjfkeoU00Nds9outr3JkvzsUYHaXXPQAcNZYJxuNo'
+BINANCE_API_SECRET = 'sSpVSdgRC1swiCmdQdYLBjdJviVrUgQB7Fy9m37tY7a56PcHgCQc7tCIKEGQbPMcY'
 
 client = Client(BINANCE_API_KEY, BINANCE_API_SECRET)
 

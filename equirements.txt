@@ -1,0 +1,6 @@
+streamlit==1.37.1
+yfinance==0.2.41
+pandas==2.2.2
+pandas_ta==0.3.14b0
+python-binance==1.0.19
+plotly==5.23.0

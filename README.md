@@ -1,4 +1,4 @@
-#Análise de Ações e Criptomoedas com Indicadores Técnicos
+## Análise de Ações e Criptomoedas com Indicadores Técnicos
 
 Este projeto usa **Streamlit** para criar uma aplicação interativa que analisa dados de ações e criptomoedas com indicadores técnicos, utilizando **yfinance**, **pandas_ta**, e a API da **Binance**. O objetivo é fornecer recomendações de compra e venda baseadas em indicadores como MACD, RSI e Bandas de Bollinger.
 
@@ -24,6 +24,7 @@ Clone este repositório para sua máquina local:
 ```
 git clone https://github.com/seu-usuario/seu-repositorio.git
 cd seu-repositorio
+```
 
 ### 2. Arquivo .env
 
@@ -32,14 +33,15 @@ Crie um arquivo chamado .env na raiz do projeto com o seguinte conteúdo. Substi
 ```
 BINANCE_API_KEY=suas_chaves_binance_api_key
 BINANCE_API_SECRET=sua_chave_binance_api_secret
+```
 
-
-###3. Construir e Rodar a Aplicação
+##3. Construir e Rodar a Aplicação
 
 Com o Docker e Docker Compose instalados, você pode construir e rodar a aplicação com os seguintes comandos:
 
 ```docker-compose build
 docker-compose up
+```
 
  aplicação será acessível em http://localhost:8501.
 
@@ -61,4 +63,4 @@ Este projeto está licenciado sob a MIT License.
 
 Contato
 
-Para perguntas ou sugestões, entre em contato com seu-email@dominio.com.
+Para perguntas ou sugestões, entre em contato com thdamiaos@gmail.com

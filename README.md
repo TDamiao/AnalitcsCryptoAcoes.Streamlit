@@ -22,7 +22,7 @@ Este projeto usa **Streamlit** para criar uma aplicação interativa que analisa
 Clone este repositório para sua máquina local:
 
 ```
-git clone https://github.com/seu-usuario/seu-repositorio.git
+git clone git@github.com:TDamiao/ilhoa.analitc.git
 cd seu-repositorio
 ```
 

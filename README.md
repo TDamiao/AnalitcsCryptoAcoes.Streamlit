@@ -1,4 +1,4 @@
-# Análise de Ações e Criptomoedas com Indicadores Técnicos
+#Análise de Ações e Criptomoedas com Indicadores Técnicos
 
 Este projeto usa **Streamlit** para criar uma aplicação interativa que analisa dados de ações e criptomoedas com indicadores técnicos, utilizando **yfinance**, **pandas_ta**, e a API da **Binance**. O objetivo é fornecer recomendações de compra e venda baseadas em indicadores como MACD, RSI e Bandas de Bollinger.
 

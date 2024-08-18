@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import yfinance as yf
 import pandas as pd
@@ -6,9 +7,9 @@ from binance.client import Client
 import plotly.graph_objects as go
 import datetime
 
-# Binance API keys (substitua pelas suas chaves se necessário)
-BINANCE_API_KEY = 'elKswgkiM7gXTeo0ge8BkMqJjfkeoU00Nds9outr3JkvzsUYHaXXPQAcNZYJxuNo'
-BINANCE_API_SECRET = 'sSpVSdgRC1swiCmdQdYLBjdJviVrUgQB7Fy9m37tY7a56PcHgCQc7tCIKEGQbPMcY'
+# Obter credenciais da API a partir das variáveis de ambiente
+BINANCE_API_KEY = os.getenv('BINANCE_API_KEY')
+BINANCE_API_SECRET = os.getenv('BINANCE_API_SECRET')
 
 client = Client(BINANCE_API_KEY, BINANCE_API_SECRET)
 

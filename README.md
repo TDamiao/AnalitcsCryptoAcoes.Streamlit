@@ -39,7 +39,8 @@ BINANCE_API_SECRET=sua_chave_binance_api_secret
 
 Com o Docker e Docker Compose instalados, você pode construir e rodar a aplicação com os seguintes comandos:
 
-```docker-compose build
+```
+docker-compose build
 docker-compose up
 ```
 
@@ -47,15 +48,15 @@ docker-compose up
 
 Como Usar
 
-	1.	Escolha o Tipo de Ativo: Selecione entre “Ação” ou “Criptomoeda”.
-	2.	Digite o Ticker/Símbolo: Para ações, insira o ticker (por exemplo, AAPL). Para criptomoedas, insira o símbolo (por exemplo, BTCUSDT).
-	3.	Escolha o Indicador: Selecione o indicador técnico que deseja usar (MACD, RSI ou Bollinger Bands).
-	4.	Clique em “Analisar”: A aplicação exibirá gráficos e recomendações de compra e venda com base no indicador selecionado.
+	1 Escolha o Tipo de Ativo: Selecione entre “Ação” ou “Criptomoeda”.
+	2.Digite o Ticker/Símbolo: Para ações, insira o ticker (por exemplo, AAPL). Para criptomoedas, insira o símbolo (por exemplo, BTCUSDT).
+	3.Escolha o Indicador: Selecione o indicador técnico que deseja usar (MACD, RSI ou Bollinger Bands).
+	4.Clique em “Analisar”: A aplicação exibirá gráficos e recomendações de compra e venda com base no indicador selecionado.
 
 Notas
 
-	•	Certifique-se de que suas credenciais da Binance estão corretamente configuradas no arquivo .env.
-	•	Para ajustar o código, faça modificações no arquivo app.py e reconstrua o contêiner Docker se necessário.
+	•Certifique-se de que suas credenciais da Binance estão corretamente configuradas no arquivo .env.
+	•Para ajustar o código, faça modificações no arquivo app.py e reconstrua o contêiner Docker se necessário.
 
 Licença
 

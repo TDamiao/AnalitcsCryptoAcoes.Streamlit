@@ -5,3 +5,4 @@ pandas_ta==0.3.14b0
 python-binance==1.0.19
 plotly==5.23.0
 numpy==1.24.0
+ccxt==4.3.46

@@ -3,7 +3,7 @@ import streamlit as st
 import yfinance as yf
 import pandas as pd
 import pandas_ta as ta
-from binance.client import Client
+import ccxt
 import plotly.graph_objects as go
 import datetime
 
@@ -11,20 +11,21 @@ import datetime
 BINANCE_API_KEY = os.getenv('BINANCE_API_KEY')
 BINANCE_API_SECRET = os.getenv('BINANCE_API_SECRET')
 
-client = Client(BINANCE_API_KEY, BINANCE_API_SECRET)
+exchange = ccxt.binance({
+    'apiKey': BINANCE_API_KEY,
+    'secret': BINANCE_API_SECRET,
+    'enableRateLimit': True,
+})
 
 # Função para baixar dados de ações com yfinance
 def get_stock_data(ticker):
     data = yf.download(ticker, period='1y', interval='1d')
     return data
 
-# Função para baixar dados de criptomoedas da Binance
+# Função para baixar dados de criptomoedas da Binance usando CCXT
 def get_crypto_data(symbol):
-    klines = client.get_historical_klines(symbol, Client.KLINE_INTERVAL_1DAY, "1 year ago UTC")
-    data = pd.DataFrame(klines, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 
-                                         'close_time', 'quote_asset_volume', 'number_of_trades', 
-                                         'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
-    data['close'] = pd.to_numeric(data['close'])
+    ohlcv = exchange.fetch_ohlcv(symbol, timeframe='1d', since=exchange.parse8601('2023-08-18T00:00:00Z'))
+    data = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
     data['Close'] = data['close']
     data.index = pd.to_datetime(data['timestamp'], unit='ms')
     return data
@@ -82,7 +83,7 @@ if option == 'Ação':
     ticker = st.text_input("Digite o ticker da ação", "AAPL")
     data = get_stock_data(ticker)
 else:
-    symbol = st.text_input("Digite o símbolo da criptomoeda", "BTCUSDT")
+    symbol = st.text_input("Digite o símbolo da criptomoeda", "BTC/USDT")
     data = get_crypto_data(symbol)
 
 # Escolha o indicador
